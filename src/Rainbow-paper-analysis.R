@@ -57,7 +57,7 @@ ggplot(md.cell, aes(TSNE_1, TSNE_2)) +
 
 ##################################
 # Differental Expression
-one.v.all <- DiffExp(md.cell, data=type.of.data, out=paste0(getwd(), "/diffexp/cluster.v.all/DEG", cores=7))
+one.v.all <- DiffExp(md.cell, data=normalized.data, out=paste0(getwd(), "/diffexp/cluster.v.all/DEG", cores=7))
 p.val.cutoff = 0.01 ; avg.diff.cutoff = 0.5
 one.v.all <- one.v.all[lapply(one.v.all,length)>0]
 sig.genes.list <- lapply(one.v.all, function(x) {subset(x, p.val<=p.val.cutoff & avg.diff>=avg.diff.cutoff)[order(subset(x, p.val<=p.val.cutoff & avg.diff>=avg.diff.cutoff)$avg.diff, decreasing=TRUE),]})
