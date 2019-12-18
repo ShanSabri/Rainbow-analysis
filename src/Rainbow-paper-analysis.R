@@ -8,7 +8,7 @@ source("utils.R")
 
 ##################################
 ## Read data
-raw.data      <- ReadData('~/Dropbox/ErnstLab/Analyses/Ngoc_Nguyen/2017-07-17/data/reza-2016-sc-count.txt.gz')
+raw.data      <- ReadData('reza-2016-sc-count.txt.gz')
 filtered.data <- FilterGenes(raw.data, is.expr=1, n.cells=2)
 md.cell       <- BuildCellMetaData(raw.data)
 md.cell       <- subset(md.cell, Timepoint != 'P10')
@@ -24,10 +24,10 @@ scaled.data       <- ScaleData(normalized.data)
 npc <- 30
 p   <- 27
 i   <- 40
-pca <- RunPCA(sclaed.data, n=npc)
-projected.loadings <- t(type.of.data) %*% as.matrix(pca$v)
+pca <- RunPCA(scaled.data, n=npc)
+projected.loadings <- t(scaled.data) %*% as.matrix(pca$v)
 tsne    <- RunTSNE(projected.loadings, perp=p, id=i, iter=2000, theta=0, dims=2)
-md.cell <-  cbind(md.cell[names(type.of.data),], data.frame(TSNE_1=tsne$Y[,1], TSNE_2=tsne$Y[,2]))
+md.cell <-  cbind.data.frame(md.cell[names(scaled.data),], data.frame(TSNE_1=tsne$Y[,1], TSNE_2=tsne$Y[,2]))
 
 
 ##################################
